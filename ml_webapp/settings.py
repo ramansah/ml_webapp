@@ -51,10 +51,18 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ml_webapp.urls'
 
+# Add static folder to STATIC_DIRS
+STATICFILES_DIRS = [
+os.path.join(BASE_DIR, "static"),
+]
+
+# Add templates to DIRS
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"],  #modify this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +76,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ml_webapp.wsgi.application'
+
+LOGIN_REDIRECT_URL = '/' # It means home view
 
 
 # Database
