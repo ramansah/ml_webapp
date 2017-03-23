@@ -1,13 +1,39 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="container">
+
+    <div class="row" style="margin-bottom:50px; margin-top:50px;">
+
+        <div class="col-md-4" style="text-align: center;">
+            <img src="{% static 'img/django-logo.png' %}" style="height:90px; border-radius: 10px;">
+        </div>
+        <div class="col-md-4" style="text-align: center;">
+            <img src="{% static 'img/tensorflow-logo.jpg' %}" style="height:170px; border-radius: 10px;">
+        </div>
+        <div class="col-md-4" style="text-align: center;">
+            <img src="{% static 'img/mongodb-logo.png' %}" style="height:100px; border-radius: 10px;">
+        </div>
+    </div>
+
     <div class="row">
-        <div class="jumbotron">
-            <h1>Hello</h1>
-            <p>You are on your Dashboard</p>
+        <div class="col-md-1"></div>
+        <div class="jumbotron col-md-10">
+            <div class="col-md-9">
+                <h2>Raman Sah</h2>
+                <h6>Python Lover | Machine Learning Enthusiast | Full Stack Developer | Freelancer</h6>
+                <p>Having a Bachelor's degree in Electronics, I started my journey in a <a href="http://mcruiseon.com/">Travel-based tech startup</a>, gained experience in Android and Java based backend. Later switched to Python and explored Django along with PyQT, MongoDB etc.</p>
+                <p>Finally got dirty with Machine Learning, TensorFlow and Deep Learning.</p>
+                <h5><a href="https://www.linkedin.com/in/raman-sah-b46204100/">LinkedIn Profile</a></h5>
+                <h5><a href="https://medium.com/@ramansah">Medium Blog</a></h5>
+                <h5><a href="#">ramansah@live.com</a></h5>
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'img/photo.jpg' %}" style="height:200px; border-radius: 10px;">
+            </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
