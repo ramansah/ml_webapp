@@ -2,21 +2,10 @@
 
 
 {% block content %}
-    {% if form.errors %}
-
-<p>Your username and password didn't match. Please try again.</p>
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-
-<p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-
-<p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
 
 <div class="container">
     <div class="row">
@@ -43,11 +32,12 @@
                         </p>
                         <p class="bs-component">
                             <center>
-                                <input class="btn btn-success btn-sm" type="submit" value="login" />
+                                <input class="btn btn-success btn-sm" type="submit" value="LOGIN" />
                             </center>
                         </p>
                         <input type="hidden" name="next" value="{{ next }}" />
                     </form>
+                    <a class="btn btn-info" href="/signup">SIGNUP</a>
                 </div>
             </div>
         </div>

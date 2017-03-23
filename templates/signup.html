@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% if error %}
+    <p>{{ error }}</p>
+{% endif %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Please Sign Up</h3>
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="">
+                    {% csrf_token %}
+
+                        <input required style="margin:10px" class="form-control" type="text" id="username" name="username" placeholder="Username">
+                        <input required style="margin:10px" class="form-control" type="text" id="email" name="email" placeholder="Email Address">
+                        <input required style="margin:10px" class="form-control" type="password" id="password" name="password" placeholder="Password">
+                        <input required style="margin:10px" class="btn btn-info" type="submit" value="SIGNUP">
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+<script>
+{% if not user.is_authenticated %}
+$("ul.nav.navbar-nav.navbar-right").css("display","none");
+{% endif %}
+</script>
+
+{% endblock %}
