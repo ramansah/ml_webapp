@@ -19,4 +19,5 @@ urlpatterns = [
     ])),
 
     url(r'^dashboard/', views.dashboard),
+    url(r'^delete_model/', views.delete_model),
 ]

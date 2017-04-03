@@ -10,11 +10,12 @@ class BaseLearningModel:
     PREDICT = 'predict'
     DELETE = 'delete'
 
-    def __init__(self, user_id, post):
+    def __init__(self, user_id, post, model_type):
 
         self.model = None
         self.user_id = user_id
         self.post = post
+        self.model_type = model_type
         self.name = post.get('name')
         self.model_id = post.get('model_id')
         self.action = post.get('action')
@@ -28,6 +29,8 @@ class BaseLearningModel:
         if self.action in (BaseLearningModel.NEW_MODEL, BaseLearningModel.PREDICT):
             self.check_input()
             if self.action == BaseLearningModel.NEW_MODEL:
+                if not self.name:
+                    raise ModelException('Name not defined')
                 self.save_to_db()
                 self.response = dict(status='Training under progress', model_id=self.model_id)
                 self.train()
@@ -70,6 +73,8 @@ class BaseLearningModel:
         else:
             model = mongo.BaseModel(
                 name=self.name,
+                user_id=self.user_id,
+                model_type=self.model_type,
                 data=data
             )
             model.save()
