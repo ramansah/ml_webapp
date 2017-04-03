@@ -17,7 +17,6 @@ Including another URLconf
 # ml_webapp/urls.py
 from django.conf.urls import include, url
 from django.contrib import admin
-# Add this import
 from django.contrib.auth import views
 from portal.forms import LoginForm
 from ml_webapp import basic_views

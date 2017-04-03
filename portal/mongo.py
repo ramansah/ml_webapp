@@ -2,19 +2,11 @@ from mongoengine import Document, BinaryField, EmbeddedDocument, IntField, ListF
 from mongoengine import StringField
 
 
-class BaseModel(EmbeddedDocument):
+class BaseModel(Document):
+    user_id = IntField()
     name = StringField(required=True)
     data = BinaryField()
     meta = {
         'allow_inheritance': True
     }
 
-
-class ModelList(Document):
-    user_id = IntField()
-    models = ListField(EmbeddedDocumentField(BaseModel))
-    meta = {
-        'indexes': ['user_id']
-    }
-
-connect(db='ML_WEB_APP')

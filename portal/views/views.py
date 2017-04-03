@@ -1,6 +1,9 @@
+from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
 from portal.views.linear_regression import LinearRegression
 
 
@@ -18,11 +21,4 @@ def dashboard(request):
 def linear_regression(request):
     if request.method == 'GET':
         return render(request, 'models/linear_regression.html', context=None)
-    elif request.method == 'POST':
-        print(request.POST)
-        return
-        model = LinearRegression(
-            user_id=request.user.id,
-            post=request.POST.body
-        )
-        return JsonResponse(model.response)
+
