@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>ML For Dummies</title>
+                <title>ML For Everyone</title>
                 <!-- Core CSS - Include with every page -->
                 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
                 </head>
@@ -19,17 +19,16 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand" href="/">Machine Learning For Beginners</a>
+                                <a class="navbar-brand" href="/">Machine Learning For Everyone</a>
                             </div>
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                                 <ul class="nav navbar-nav">
+                                    <li><a href="/about_us/">About Us</a></li>
                                 {% if user.is_authenticated %}
-                                    <li><a href="/dashboard">Dashboard</a></li>
+                                    <li><a href="/dashboard/">Dashboard</a></li>
                                 {% endif %}
                                 </ul>
-
-                                {% if user.is_authenticated %}
 
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown">
@@ -39,11 +38,16 @@
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
-                                                <a href="/models/linear_regression">Linear Regression</a>
+                                                <a href="/models/knn_classifier/">KNN Classifier</a>
+                                            </li>
+                                            <li>
+                                                <a href="/models/linear_regression/">Linear Regression</a>
                                             </li>
                                         </ul>
                                     </li>
                                 </ul>
+
+                                {% if user.is_authenticated %}
 
                                 <ul class="nav navbar-nav navbar-right" style="margin-right:100px">
                                     <li class="dropdown">

@@ -6,7 +6,7 @@ from portal import mongo
 class BaseLearningModel:
 
     NEW_MODEL = 'new_model'
-    STATUS_ENQUIRY = 'status_enquiry'
+    STATUS_ENQUIRY = 'status'
     PREDICT = 'predict'
     DELETE = 'delete'
 
@@ -33,12 +33,18 @@ class BaseLearningModel:
                     raise ModelException('Name not defined')
                 self.save_to_db()
                 self.response = dict(status='Training under progress', model_id=self.model_id)
+                # TODO Make self.train() a Celery task
                 self.train()
                 self.save_to_db()
                 self.response = dict(status='Trained', model_id=self.model_id)
             elif self.action == BaseLearningModel.PREDICT:
                 self.load_from_db()
                 self.predict()
+
+        elif self.action == BaseLearningModel.DELETE:
+            if not self.model_id:
+                raise ModelException('Model ID not present')
+            self.delete()
 
     def check_status(self):
         if self.action not in (
@@ -79,6 +85,13 @@ class BaseLearningModel:
             )
             model.save()
             self.model_id = str(model.id)
+
+    def delete(self):
+        model = mongo.BaseModel.objects(id=self.model_id)[0]
+        model.delete()
+        self.response = dict(
+            status='Deleted Model Successfully'
+        )
 
 
 class ModelException(Exception):
