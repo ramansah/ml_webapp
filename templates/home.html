@@ -6,17 +6,26 @@
 
 
     <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h2 class="text-center"><strong>Machine Learning For Everyone</strong></h2>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
 
         <div class="col-md-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h4>Welcome!</h4>
+                    <h4 class="panel-title">Welcome!</h4>
                 </div>
                 <div class="panel-body">
                     <p>Here, one can learn and test Machine Learning models through APIs for free</p>
-                    <p>No more coding expertise, installation headaches, compatibility issues, need for a powerful rig</p>
-                    <p>Even Postman could run it</p>
-                    <p>And the best part is; the project is open source, the complete application can be forked from Github</p>
+                    <p>No more coding expertise, installation headaches, compatibility issues, need for a powerful rig. Even <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en">Postman</a> could run it</p>
+                    <p>And the best part is; the project is open source, the complete application can be <a href="https://github.com/ramansah/ml_webapp">forked from Github</a></p>
+                    <p><strong>The project is under active development and more complex models will be available soon. My favorite is Recurrent Neural Networks</strong></p>
                 </div>
             </div>
         </div>
@@ -25,6 +34,35 @@
             <img class="img-responsive" src="{% static 'img/ml.png' %}">
         </div>
 
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Try It Out</h4>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Check out predefined models</li>
+                        <ul>
+                            <li><a href="/models/knn_classifier/">K-Nearest Neighbor Classifier</a></li>
+                            <li><a href="/models/linear_regression/">Linear Regression</a></li>
+                        </ul>
+                        <li>Sign Up <a href="/signup/">Here</a></li>
+                        <li>Login <a href="/login/">Here</a></li>
+                        <li>Check your <a href="/dashboard/">Dashboard</a></li>
+                        <li>Pick up your favorite api consumer and:</li>
+                        <ul>
+                            <li>Create and save models</li>
+                            <li>Run predictions (case to case basis)</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 
