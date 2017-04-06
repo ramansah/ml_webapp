@@ -6,6 +6,13 @@ class LinearRegression(BaseLearningModel):
 
     def __init__(self, user_id, post):
         super().__init__(user_id=user_id, post=post, model_type='Linear Regression')
+        if self.action == self.get_extended_actions()[0]:
+            self.response = dict(status='OK', coefficients=self.model.coef_)
+
+    def get_extended_actions(self):
+        return (
+            'get_coefficients',
+        )
 
     def predict(self):
         prediction = self.model.predict(X=self.post.get('input_x'))
@@ -30,6 +37,9 @@ class KNNClassifier(BaseLearningModel):
 
     def __init__(self, user_id, post):
         super().__init__(user_id=user_id, post=post, model_type='K Nearest Neighbors')
+
+    def get_extended_actions(self):
+        return ()
 
     def train(self):
         n_neighbors = self.post.get('neighbors', 5)

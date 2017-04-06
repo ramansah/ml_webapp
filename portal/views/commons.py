@@ -1,5 +1,8 @@
 from abc import abstractmethod
 import pickle
+
+from mongoengine import ValidationError
+
 from portal import mongo
 
 
@@ -49,7 +52,8 @@ class BaseLearningModel:
     def check_status(self):
         if self.action not in (
                 BaseLearningModel.NEW_MODEL, BaseLearningModel.STATUS_ENQUIRY,
-                BaseLearningModel.PREDICT, BaseLearningModel.DELETE):
+                BaseLearningModel.PREDICT, BaseLearningModel.DELETE) \
+                and self.action not in self.get_extended_actions():
             raise ModelException(message='Invalid action. Please fill a valid action and try again')
 
     @abstractmethod
@@ -64,9 +68,18 @@ class BaseLearningModel:
     def train(self):
         pass
 
+    @abstractmethod
+    def get_extended_actions(self):
+        pass
+
     def load_from_db(self):
-        model = mongo.BaseModel.objects(id=self.model_id)[0]
-        self.model = pickle.loads(model.data)
+        try:
+            model = mongo.BaseModel.objects(id=self.model_id)[0]
+            self.model = pickle.loads(model.data)
+        except ValidationError:
+            raise ModelException('Invalid Object ID')
+        except Exception:
+            raise ModelException('Object ID not present in DB. Make sure you didn\'t delete the model')
 
     def save_to_db(self):
         data = pickle.dumps(self.model)

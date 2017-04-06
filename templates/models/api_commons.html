@@ -19,10 +19,6 @@
                     <td>Creates a new model and saves it to database</td>
                 </tr>
                 <tr>
-                    <td>status*<br>(not implemented)</td>
-                    <td>Check the status of training in case of heavy workload</td>
-                </tr>
-                <tr>
                     <td>predict</td>
                     <td>Use the saved model to predict output for given data</td>
                 </tr>
@@ -30,6 +26,10 @@
                     <td>delete</td>
                     <td>Delete the model from database</td>
                 </tr>
+
+                {% block extended_actions %}
+                {% endblock %}
+
                 </tbody>
             </table>
         </div>

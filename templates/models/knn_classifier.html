@@ -88,5 +88,37 @@ Authorization: JWT abcd12345
         </div>
     </div>
 
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Specific Notes</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li><h4>"new_model" optional arguments : </h4>
+                            <ul>
+                                <li>
+                                    <p><strong>neighbors</strong></p>
+                                    <p>Can be used to describe the number of neighbors considered while classification</p>
+                                    <pre>
+{
+    "action": "new_model",
+    "neighbors": 5,
+    "name": ...,
+    "input_x": ...
+    "input_y": ...
+}</pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 {% endblock %}
