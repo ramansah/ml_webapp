@@ -1,6 +1,3 @@
-# ml_webapp
-Some description
-
 ## Latest Version hosted here
 http://ml4everyone.com
 
