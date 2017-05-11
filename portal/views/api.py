@@ -14,6 +14,8 @@ class LinearRegression(APIView):
             return Response(model.response)
         except ModelException as e:
             return Response(dict(status='Error', message=e.get_message()))
+        except Exception as e:
+            return Response(dict(status='Error', message=str(e)))
 
 
 class KNearestNeighbors(APIView):
@@ -26,3 +28,19 @@ class KNearestNeighbors(APIView):
             return Response(model.response)
         except ModelException as e:
             return Response(dict(status='Error', message=e.get_message()))
+        except Exception as e:
+            return Response(dict(status='Error', message=str(e)))
+
+
+class SVMClassifier(APIView):
+    def post(self, request):
+        try:
+            model = learning_models.SVMClassifier(
+                user_id=request.user.id,
+                post=request.data
+            )
+            return Response(model.response)
+        except ModelException as e:
+            return Response(dict(status='Error', message=e.get_message()))
+        except Exception as e:
+            return Response(dict(status='Error', message=str(e)))

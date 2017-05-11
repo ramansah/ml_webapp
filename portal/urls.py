@@ -10,11 +10,13 @@ urlpatterns = [
         url(r'^login/', obtain_jwt_token),
         url(r'^linear_regression/', api.LinearRegression.as_view()),
         url(r'^knn_classifier/', api.KNearestNeighbors.as_view()),
+        url(r'^svm_classifier/', api.SVMClassifier.as_view()),
     ])),
 
     url(r'^models/', include([
         url(r'^linear_regression/', views.linear_regression),
         url(r'^knn_classifier/', views.knn_classifier),
+        url(r'^svm_classifier/', views.svm_classifier),
     ])),
 
     url(r'^about_us/', views.about_us),

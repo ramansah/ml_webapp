@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">SVM Classifier</h3>
+                </div>
+                <div class="panel-body">
+                    <img class="img-responsive" src="{% static 'img/svm.png' %}">
+                    <h4><em>Crux</em></h4>
+                    <h5></h5>Instances can be classified or divided by imaginary hyperplanes acting as a boundary
+                    <h5><a target="_blank" href="https://en.wikipedia.org/wiki/Support_vector_machine">More Details : Wikipedia</a></h5>
+                </div>
+            </div>
+        </div>
+        {% include "./api_login.html" %}
+        {% include "./api_commons.html" %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Training : GPS Coordinates of Nevada & Kansas</h3>
+                </div>
+                <div class="panel-body">
+                    <h5>The GPS coordinates of three random locations in each of the state of US - Nevada and Kansas are used as training data. The first three are the locations in Nevada and rest three in Kansas. </h5>
+                    <h4><em>Request</em></h4>
+                    <pre>
+POST /api/svm_classifier/ HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: JWT abcd12345
+
+{
+	"action": "new_model",
+	"name": "Classify Area on the basis of GPS coords",
+	"input_x": [[40.239230, -117.998445], [40.339793, -114.702547], [37.328181, -115.537507],
+                [37.432941, -101.079500], [39.531108, -97.036531], [37.572392, -95.542390]],
+	"input_y": ["Nevada", "Nevada", "Nevada", "Kansas", "Kansas", "Kansas"]
+}</pre>
+                    <h4><em>Response</em></h4>
+                    <pre>
+{
+    "status": "Trained",
+    "model_id": "58e3657868b9b6147505f1fc"
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Prediction : GPS Coordinates of Nevada & Kansas</h3>
+                </div>
+                <div class="panel-body">
+                    <h5>Now, the model is provided with a new location which was not used before. The model will assess and respond with one of the two states.</h5>
+                    <h4><em>Request</em></h4>
+                    <pre>
+POST /api/svm_classifier/ HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: JWT abcd12345
+
+{
+	"action": "predict",
+	"model_id": "58e3657868b9b6147505f1fc",
+	"input_x": [[38.369171, -99.761140], [40.597344, -114.925079]]
+}</pre>
+                    <h4><em>Response</em></h4>
+                    <pre>
+{
+    "prediction": [
+        "Kansas",
+        "Nevada"
+    ],
+    "status": "OK"
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Specific Notes</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li><h4>"new_model" optional arguments : </h4>
+                            <ul>
+                                <li>
+                                    <p><strong>c</strong></p>
+                                    <p>Penalty parameter C of the error term</p>
+                                    <pre>
+{
+    "action": "new_model",
+    "c": 2.0,
+    "name": ...,
+    "input_x": ...
+    "input_y": ...
+}</pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}

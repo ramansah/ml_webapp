@@ -1,5 +1,5 @@
 from portal.views.commons import BaseLearningModel, ModelException
-from sklearn import linear_model, neighbors
+from sklearn import linear_model, neighbors, svm
 
 
 class LinearRegression(BaseLearningModel):
@@ -61,3 +61,31 @@ class KNNClassifier(BaseLearningModel):
             input_y = self.post.get('input_y')
             if not input_y:
                 raise ModelException('input_y empty')
+
+
+class SVMClassifier(BaseLearningModel):
+
+    def __init__(self, user_id, post):
+        super().__init__(user_id=user_id, post=post, model_type='SVM Classifier')
+
+    def predict(self):
+        prediction = self.model.predict(X=self.post.get('input_x'))
+        self.response = dict(status='OK', prediction=prediction)
+
+    def train(self):
+        c = float(self.post.get('c', 1.0))
+        self.model = svm.SVC(C=c)
+        self.model.fit(self.post.get('input_x'), self.post.get('input_y'))
+        self.response = dict(status='Trained')
+
+    def check_input(self):
+        input_x = self.post.get('input_x')
+        if not input_x:
+            raise ModelException('input_x empty')
+        if self.action == BaseLearningModel.NEW_MODEL:
+            input_y = self.post.get('input_y')
+            if not input_y:
+                raise ModelException('input_y empty')
+
+    def get_extended_actions(self):
+        return ()
