@@ -16,16 +16,14 @@ Including another URLconf
 
 # ml_webapp/urls.py
 from django.conf.urls import include, url
-from django.contrib import admin
 from django.contrib.auth import views
 from portal.forms import LoginForm
 from ml_webapp import basic_views
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
     url(r'', include('portal.urls')),
-    url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}),
-    url(r'^logout/$', views.logout, {'next_page': '/login'}),
+    url(r'^login/$', views.LoginView.as_view(), {'template_name': 'login.html', 'authentication_form': LoginForm}),
+    url(r'^logout/$', views.LogoutView.as_view(), {'next_page': '/login'}),
     url(r'^signup/$', basic_views.signup),
 ]

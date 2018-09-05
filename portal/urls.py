@@ -19,7 +19,6 @@ urlpatterns = [
         url(r'^svm_classifier/', views.svm_classifier),
     ])),
 
-    url(r'^about_us/', views.about_us),
     url(r'^dashboard/', views.dashboard),
     url(r'^delete_model/', views.delete_model),
 ]
