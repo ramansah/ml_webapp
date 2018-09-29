@@ -1,6 +1,5 @@
 from rest_framework.response import Response
-
-from portal.views.commons import ModelException
+from portal.exceptions import ModelException
 
 
 def api_decorator(api_method):

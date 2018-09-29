@@ -13,7 +13,7 @@ class BaseModel(mongoengine.Document):
 
     user_id = mongoengine.IntField()
     name = mongoengine.StringField(required=True)
-    model_type = mongoengine.StringField(required=True)
+    model_path = mongoengine.StringField(required=True)
     data = mongoengine.BinaryField()
     created_at = mongoengine.DateTimeField()
     updated_at = mongoengine.DateTimeField()

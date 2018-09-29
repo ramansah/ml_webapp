@@ -23,21 +23,6 @@ def dashboard(request):
         return render(request, 'dashboard.html', context)
 
 
-def linear_regression(request):
-    if request.method == 'GET':
-        return render(request, 'models/linear_regression.html', context=None)
-
-
-def knn_classifier(request):
-    if request.method == 'GET':
-        return render(request, 'models/knn_classifier.html', context=None)
-
-
-def svm_classifier(request):
-    if request.method == 'GET':
-        return render(request, 'models/svm_classifier.html', context=None)
-
-
 @login_required
 def delete_model(request):
     if request.method == 'GET':

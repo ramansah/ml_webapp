@@ -1,48 +1,74 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load staticfiles %}
 {% block content %}
 
 <div class="container">
+    <div class="row">
+        {% include "./models/api_login.html" %}
+        {% include "./models/api_commons.html" %}
+    </div>
 
     <div class="row">
-
         <div class="col-md-6">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Welcome!</h4>
+                    <h3 class="panel-title">Training Model</h3>
                 </div>
                 <div class="panel-body">
-                    <p>Here, one can learn and test Machine Learning models through APIs for free</p>
-                    <p>No more coding expertise, installation headaches, compatibility issues, need for a powerful rig. Even <a href="https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en">Postman</a> could run it</p>
-                    <p>And the best part is; the project is open source, the complete application can be <a href="https://github.com/ramansah/ml_webapp">forked from Github</a></p>
-                    <p><strong>The project is under active development and more complex models will be available soon. My favorite is Recurrent Neural Networks</strong></p>
-                </div>
-            </div>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Try It Out</h4>
-                </div>
-                <div class="panel-body">
-                    <ul>
-                        <li>Check out predefined models</li>
-                        <ul>
-                            <li><a href="/models/knn_classifier/">K-Nearest Neighbor Classifier</a></li>
-                            <li><a href="/models/svm_classifier/">SVM Classifier</a></li>
-                            <li><a href="/models/linear_regression/">Linear Regression</a></li>
-                        </ul>
-                        <li>Sign Up <a href="/signup/">Here</a></li>
-                        <li>Login <a href="/login/">Here</a></li>
-                        <li>Check your <a href="/dashboard/">Dashboard</a></li>
-                        <li>Pick up your favorite api consumer and:</li>
-                        <ul>
-                            <li>Create and save models</li>
-                            <li>Run predictions (case to case basis)</li>
-                        </ul>
-                    </ul>
+                    <h4><em>Request</em></h4>
+                    <pre>
+POST /api/model/ HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: JWT abcd12345
+
+{
+        "model_path": "sklearn.linear_model.LinearRegression",
+	"action": "new_model",
+	"name": "Compute Final Score",
+	"input_x": [[9.5, 8.75, 6.9], [9.9, 4.8, 5.45], [8.5, 5.7, 9.8], [9, 9.5, 9.1]],
+	"input_y": [29.15, 20, 25.45, 32.6]
+}</pre>
+                    <h4><em>Response</em></h4>
+                    <pre>
+{
+    "status": "Trained",
+    "model_id": "58e37bb568b9b62d3d8a3818"
+}</pre>
                 </div>
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Prediction using Model</h3>
+                </div>
+                <div class="panel-body">
+                    <h4><em>Request</em></h4>
+                    <pre>
+POST /api/model/ HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: JWT abcd12345
+
+{
+	"action": "predict",
+	"model_id": "58e37bb568b9b62d3d8a3818",
+	"input_x": [[9, 9.5, 9.1], [8, 8, 6.5]]
+}</pre>
+                    <h4><em>Response</em></h4>
+                    <pre>
+{
+    "status": "OK",
+    "prediction": [
+        32.6,
+        26.499999999999957
+    ]
+}</pre>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

@@ -1,9 +1,8 @@
-from abc import abstractmethod
 import pickle
 
 from mongoengine import ValidationError
-
 from portal import mongo
+from portal.exceptions import ModelException
 
 
 class BaseLearningModel:
@@ -13,15 +12,15 @@ class BaseLearningModel:
     PREDICT = 'predict'
     DELETE = 'delete'
 
-    def __init__(self, user_id, post, model_type):
+    def __init__(self, user_id, params):
 
         self.model = None
         self.user_id = user_id
-        self.post = post
-        self.model_type = model_type
-        self.name = post.get('name')
-        self.model_id = post.get('model_id')
-        self.action = post.get('action')
+        self.post = params
+        self.model_path = params.get('model_path')
+        self.name = params.get('name')
+        self.model_id = params.get('model_id')
+        self.action = params.get('action')
         self.response = None
 
         self.check_status()
@@ -50,27 +49,40 @@ class BaseLearningModel:
             self.delete()
 
     def check_status(self):
+
         if self.action not in (
                 BaseLearningModel.NEW_MODEL, BaseLearningModel.STATUS_ENQUIRY,
-                BaseLearningModel.PREDICT, BaseLearningModel.DELETE) \
-                and self.action not in self.get_extended_actions():
+                BaseLearningModel.PREDICT, BaseLearningModel.DELETE):
             raise ModelException(message='Invalid action. Please fill a valid action and try again')
 
-    @abstractmethod
     def check_input(self):
-        pass
 
-    @abstractmethod
+        input_x = self.post.get('input_x')
+        if not input_x:
+            raise ModelException('input_x empty')
+        if self.action == BaseLearningModel.NEW_MODEL:
+            input_y = self.post.get('input_y')
+            if not input_y:
+                raise ModelException('input_y empty')
+
     def predict(self):
-        pass
 
-    @abstractmethod
+        prediction = self.model.predict(X=self.post.get('input_x'))
+        self.response = dict(status='OK', prediction=prediction)
+
     def train(self):
-        pass
 
-    @abstractmethod
-    def get_extended_actions(self):
-        pass
+        family_path = '.'.join(self.model_path.split('.')[0:-1])
+        family_name = self.model_path.split('.')[1]
+        model_name = self.model_path.split('.')[-1]
+        parent_module = __import__(family_path)
+        model_family = getattr(parent_module, family_name)
+        model_constructor = getattr(model_family, model_name)
+        self.model = model_constructor()
+        x = self.post.get('input_x')
+        y = self.post.get('input_y')
+        self.model.fit(x, y)
+        self.response = dict(status='Trained')
 
     def load_from_db(self):
         try:
@@ -79,9 +91,10 @@ class BaseLearningModel:
         except ValidationError:
             raise ModelException('Invalid Object ID')
         except Exception:
-            raise ModelException('Object ID not present in DB. Make sure you didn\'t delete the model')
+            raise ModelException('Object ID not present in DB. Are you sure you didn\'t delete the model')
 
     def save_to_db(self):
+
         data = pickle.dumps(self.model)
 
         if self.model_id:
@@ -93,24 +106,16 @@ class BaseLearningModel:
             model = mongo.BaseModel(
                 name=self.name,
                 user_id=self.user_id,
-                model_type=self.model_type,
+                model_path=self.model_path,
                 data=data
             )
             model.save()
             self.model_id = str(model.id)
 
     def delete(self):
+
         model = mongo.BaseModel.objects(id=self.model_id)[0]
         model.delete()
         self.response = dict(
             status='Deleted Model Successfully'
         )
-
-
-class ModelException(Exception):
-    def __init__(self, message, *args):
-        Exception.__init__(self, *args)
-        self.message = message
-
-    def get_message(self):
-        return self.message

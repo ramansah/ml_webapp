@@ -5,6 +5,8 @@
 
 Django app to expose interface of scikit-learn through API
 
+> Update : Refactored code to dynamically fetch model classes mentioned by the user in API. Theoretically, all models in scikit learn can be tested now. 
+
 ## Features
 
 - Independent login for users
@@ -56,8 +58,6 @@ python manage.py runserver
 
 Visit <http://localhost:8000> and register a new user
 
-Browse <http://localhost:8000/models/linear_regression/> to see the API for Linear Regressor
-
 Fetch the JWT for current user
 
 ``` bash
@@ -76,17 +76,16 @@ Response
 
 Create a model and save in the DB
 
-Consider the following problem statement
-
-> You are a Physics student who appeared for the final exams and impatient to know your final score. But the teacher who grades you is insanely strict. He has a formula to calculate total score but no one knows it (which is 0.5 * Paper_1 + 2 * Paper_2 + Paper_3). You have a list of your friends' exam scores along with final score and want to calculate yours.
+Consider the 
 
 ``` bash
-POST /api/linear_regression/
+POST /api/model/
 Content-Type: application/json
 Accept: application/json
 Authorization: JWT abcd12345
 
 {
+  "model_path": "sklearn.linear_model.LinearRegression",
   "action": "new_model",
   "name": "Compute Final Score",
   "input_x": [[95, 87, 69], [99, 48, 54], [85, 57, 98], [90, 95, 91]],
@@ -103,7 +102,7 @@ Response
 Use this model to predict your score
 
 ``` bash
-POST /api/linear_regression/
+POST /api/model/
 Content-Type: application/json
 Accept: application/json
 Authorization: JWT abcd12345
@@ -126,7 +125,3 @@ Response
 Check out your trained models at Dashboard
 
 ![Dashboard](http://ramansah.com/img/screen3.png)  
-
-### Issues in production  
-  
-<http://stackoverflow.com/questions/16823388/using-scipy-in-django-with-apache-and-mod-wsgi>
